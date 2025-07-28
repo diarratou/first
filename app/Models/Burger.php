@@ -29,4 +29,6 @@ class Burger extends Model
         return $query->where('archive', true);
     }
 
+    
+
 }

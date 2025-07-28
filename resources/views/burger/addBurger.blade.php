@@ -10,6 +10,7 @@
 
     .form-control,
     textarea.form-control {
+
         background-color: #1c1c1c;
         color: #fff;
         border: 1px solid #ffc107;
@@ -69,6 +70,7 @@
                 @enderror
             </div>
 
+
             <!-- Prix -->
             <div class="mb-3">
                 <label for="prix" class="form-label">Prix (FCFA)</label>
@@ -81,7 +83,7 @@
             <!-- Image -->
             <div class="mb-3">
                 <label for="image" class="form-label">Image</label>
-                <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" value="{{$burger->image}}">
+                <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" value="{{'storage/'.$burger->image}}">
                 @error('image')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror

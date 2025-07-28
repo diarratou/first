@@ -74,8 +74,12 @@ Route::get('/showCommande/{id}',[\App\Http\Controllers\CommandeController::class
     Route::patch('/cart/{cartItem}', [\App\Http\Controllers\CardController::class, 'update'])->name('cart.update');
     Route::get('/cart/{cartItem}/remove', [\App\Http\Controllers\CardController::class, 'remove'])->name('cart.remove');
     Route::get('/cart/checkout', [\App\Http\Controllers\CardController::class, 'checkout'])->name('cart.checkout');
+    //Route::get('/paiement/{commande}', [\App\Http\Controllers\PaiementController::class, 'store'])->name('paiement.store');
+    Route::post('/commandes/{commande}/payer', [\App\Http\Controllers\PaiementController::class, 'payerParGestionnaire'])->name('commandes.payer.gestionnaire');
 
-
+    Route::get('/commandes/{commande}/facture', [\App\Http\Controllers\FactureController::class, 'genererFacture'])->name('commandes.facture');
+    Route::get('/factures', [\App\Http\Controllers\FactureController::class, 'index'])->name('facture');
+    Route::get('/facture/{commande}/pdf', [\App\Http\Controllers\FactureController::class, 'telechargerPdf'])->name('commandes.facture.pdf');
 
 });
 

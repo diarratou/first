@@ -79,6 +79,6 @@ class CardController extends Controller
         //$gestionnaire->notify(new NouvelleCommandeNotification($commande));
        // $commande->user->notify(new CommandeConfirmationNotification($commande));
 
-        return redirect()->route('commande')->with('success', 'Commande passée avec succès.');
+        return redirect()->route('burger')->with('success', 'Commande passée avec succès.');
     }
 }

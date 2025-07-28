@@ -68,4 +68,12 @@ class CommandeBurgerController extends Controller {
 
         return redirect()->route('commandes.index')->with('success', 'Commande passée avec succès.');
     }
+
+     public function facture(Commande $commande)
+    {
+        // Télécharger la facture en PDF
+        // Utilisation de DomPDF ou une autre bibliothèque pour générer le PDF
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('facture', compact('commande'));
+        return $pdf->download('facture_' . $commande->id . '.pdf');
+    }
 }

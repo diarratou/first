@@ -85,9 +85,9 @@ class CommandeController extends Controller
             $commande->total = $request->montant_paye;
         }
 
-        if ($request->statut == 'prete') {
-            $commande->user->notify(new FacturePDFNotification($commande));
-        }
+        // if ($request->statut == 'prete') {
+        //     $commande->user->notify(new FacturePDFNotification($commande));
+        // }
 
 
         $commande->save();

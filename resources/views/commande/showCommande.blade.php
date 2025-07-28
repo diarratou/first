@@ -54,6 +54,17 @@
 
                     <button type="submit" class="btn btn-warning fw-bold px-4">💾 Enregistrer</button>
                 </form>
+                @if($commande->statut === 'prete')
+                    <form method="POST" action="{{ route('commandes.payer.gestionnaire', $commande->id) }}">
+                        @csrf
+                        <div class="form-group">
+                            <label for="montant">Montant reçu (en FCFA)</label>
+                            <input type="number" name="montant" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-success mt-2">Payer en espèces</button>
+                    </form>
+                @endif
+
             </div>
         </div>
     </div>

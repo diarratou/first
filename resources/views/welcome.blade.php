@@ -69,10 +69,17 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('commande') }}">Gestion des Commandes</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('commande') }}">Statistiques</a>
+                    </li>
                 @endif
                 @if(Auth::check() && Auth::user()->role === 'client')
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('cart.show') }}">Commandes</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('facture') }}">Facture</a>
                     </li>
                 @endif
             </ul>

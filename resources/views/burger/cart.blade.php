@@ -2,10 +2,10 @@
 
 @section('content')
 <div class="container py-5" style="background: linear-gradient(135deg, #000000, #1a1a1a); min-height: 100vh; color: #f1c40f;">
-    <h1 class="text-center mb-5 display-5 fw-bold text-warning">🛒 Votre Panier</h1>
+    <h1 class="text-center mb-5 display-5 fw-bold text-warning">🛒 Vos Commandes</h1>
 
     @if($cartItems->isEmpty())
-        <p class="text-center fs-4 text-warning">Votre panier est vide. Ajoutez des burgers ! 🍔</p>
+        <p class="text-center fs-4 text-warning">Pas de commande ! 🍔</p>
     @else
         @foreach($cartItems as $item)
             <div class="card mb-4 shadow border border-warning bg-dark text-warning">
@@ -35,10 +35,37 @@
             </div>
         @endforeach
 
-        <div class="text-end mt-5">
-            <h3 class="text-warning fw-bold">Total : {{ $total }} FCFA</h3>
-            <a href="{{ route('cart.checkout') }}" class="btn btn-success btn-lg fw-bold mt-3">✅ Passer la commande</a>
+        <div class="mt-5 text-end">
+            <div class="mb-3">
+                <h3 class="text-warning fw-bold">Total : {{ $total }} FCFA</h3>
+            </div>
+            <div class="d-flex flex-column flex-md-row justify-content-between gap-3">
+                <a href="{{ route('burger') }}" class="btn btn-outline-warning btn-lg fw-bold">↩️ Retour</a>
+                <a href="{{ route('cart.checkout') }}" class="btn btn-success btn-lg fw-bold">✅ Valider la commande</a>
+            </div>
         </div>
+        {{-- <form method="POST" action="{{ route('paiement.store', $commande->id) }}">
+            @csrf
+
+            <div class="form-group">
+                <label>Montant à payer (Total : {{ $commande->total }} FCFA)</label>
+                <input type="number" name="montant" class="form-control" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Payer</button>
+        </form> --}}
+        
+
+        @if($commande->statut === 'payee')
+            <div class="alert alert-info">
+
+                Cette commande a été payée le {{ $commande->date_paiement->format('d/m/Y à H:i') }}.
+            </div>
+        @endif
+
+
+
+
     @endif
 </div>
 @endsection
