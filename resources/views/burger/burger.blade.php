@@ -113,10 +113,19 @@
                                 </form>
                                 <a href="{{ route('editBurger', $c->id) }}" class="btn btn-outline-warning btn-sm">✏️</a>
 
-                                <form method="get" action="{{ route('archiveBurger', $c->id) }}" onsubmit="return confirm('Confirmer Archive ?')">
-                                    @csrf
-                                    <button type="submit">Archiver</button>
-                                </form>
+                                @if(!$c->archive)
+                                    <form action="{{ route('burgers.archiver', $c->id) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" class="btn btn-warning btn-sm">🗃 Archiver</button>
+                                    </form>
+                                @else
+                                    <form action="{{ route('burgers.desarchiver', $c->id) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" class="btn btn-outline-success btn-sm">♻ Desarchiver</button>
+                                    </form>
+                                @endif
 
                             </td>
                         </tr>
@@ -129,12 +138,18 @@
     {{-- Recherche pour client --}}
     @if(Auth::check() && Auth::user()->role === 'client')
     <div class="container my-4">
-        <form method="GET" action="{{ route('burger') }}" class="d-flex search-form align-items-center  p-3 rounded shadow-sm">
-            <input type="text" name="search" id="search" class="form-control me-2" placeholder="🔍 Rechercher " value="{{ request('search') }}">
-            <button type="submit" class="btn btn-warning text-dark px-4 shadow-sm">
-                <i class="fas fa-search"></i> Filtrer
-            </button>
-        </form>
+        <form method="GET" action="{{ route('burger') }}" class="row g-3 mb-4">
+        <div class="col-md-4">
+            <input type="text" name="nom" class="form-control" placeholder="Recherche par nom..." value="{{ request('nom') }}">
+        </div>
+        <div class="col-md-3">
+            <input type="number" name="prix" class="form-control" placeholder="Prix" value="{{ request('prix') }}">
+        </div>
+
+        <div class="col-md-2">
+            <button class="btn btn-warning w-100">🔍 Filtrer</button>
+        </div>
+    </form>
     </div>
     @endif
 

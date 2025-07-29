@@ -66,11 +66,14 @@
                     <a class="nav-link" href="{{ route('burger') }}">Liste des Burgers</a>
                 </li>
                 @if(Auth::check() && Auth::user()->role === 'gestionnaire')
+                    {{-- <li class="nav-item">
+                        <a href="{{ route('burgers.archives') }}" class="nav-link">🗃 Archivés</a>
+                    </li> --}}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('commande') }}">Gestion des Commandes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('commande') }}">Statistiques</a>
+                        <a class="nav-link" href="{{ route('statistiques') }}">Statistiques</a>
                     </li>
                 @endif
                 @if(Auth::check() && Auth::user()->role === 'client')

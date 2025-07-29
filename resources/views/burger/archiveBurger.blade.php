@@ -1,4 +1,4 @@
-@extends('welcome')
+{{-- @extends('welcome')
 
 @section('content')
 
@@ -122,5 +122,56 @@
         {{ $burgers->links() }}
     </div>
 
+</div>
+@endsection --}}
+
+@extends('welcome') {{-- ou welcome si c’est ta base --}}
+
+@section('content')
+<div class="container py-4">
+    <h2 class="mb-4 text-warning">🗃 Burgers Archivés</h2>
+
+    @if($burgers->isEmpty())
+        <div class="alert alert-info">Aucun burger archivé.</div>
+    @else
+        <table class="table table-bordered table-dark text-warning">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prix</th>
+                    <th>Image</th>
+                    <th>Description</th>
+                    <th>Stock</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($burgers as $burger)
+                    <tr>
+                        <td>{{ $burger->nom }}</td>
+                        <td>{{ number_format($burger->prix, 0, ',', ' ') }} FCFA</td>
+                        <td>
+                            <img src="{{ asset('storage/'.$burger->image) }}" alt="Image" width="70" height="70" class="rounded">
+                        </td>
+                        <td>{{ Str::limit($burger->description, 40) }}</td>
+                        <td>{{ $burger->stock }}</td>
+                        <td>
+                            <form action="{{ route('burgers.desarchiver', $burger->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('PATCH')
+                                <button class="btn btn-success btn-sm">♻ Desarchiver</button>
+                            </form>
+
+
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+
+    @endif
+    <div class="text-center">
+            <a href="{{ route('burger') }}" class="btn-back">⬅️ Retour à la liste</a>
+        </div>
 </div>
 @endsection

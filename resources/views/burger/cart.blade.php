@@ -54,14 +54,14 @@
 
             <button type="submit" class="btn btn-primary">Payer</button>
         </form> --}}
-        
 
-        @if($commande->statut === 'payee')
+
+        {{-- @if($commande->statut === 'payee')
             <div class="alert alert-info">
 
                 Cette commande a été payée le {{ $commande->date_paiement->format('d/m/Y à H:i') }}.
             </div>
-        @endif
+        @endif --}}
 
 
 

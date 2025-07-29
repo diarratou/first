@@ -11,10 +11,22 @@ class BurgerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $burgers = Burger::Paginate(5);
+         $query = Burger::query();
+
+        // Filtrer par nom
+        if ($request->filled('nom')) {
+            $query->where('nom', 'like', '%' . $request->nom . '%');
+        }
+        // Filtrer par prix
+        if ($request->filled('prix')) {
+            $query->where('prix', '=', $request->prix);
+        }
+
+
+        $burgers = $query->paginate(5);
         return view('burger.burger',compact('burgers'));
 
     }
@@ -147,20 +159,27 @@ class BurgerController extends Controller
 
     public function archiver($id)
     {
-        $burgers = Burger::findOrFail($id);
-        $burgers->archive = true;
-        $burgers->save();
+        $burger = Burger::findOrFail($id);
+        $burger->archive = true;
+        $burger->save();
 
-        return redirect()->back()->with('success', 'Burger archivé avec succès.');
+        return redirect()->route('burgers.archives')->with('success', 'Burger archivé avec succès.');
     }
 
     public function desarchiver($id)
     {
-        $burger2 = Burger::findOrFail($id);
-        $burger2->archived = false;
-        $burger2->save();
+        $burger = Burger::findOrFail($id);
+        $burger->archive = false;
+        $burger->save();
 
-        return redirect('burger')->with('success', 'Produit désarchivé avec succès.');
+        return redirect()->back()->with('success', 'Burger desarchivé avec succès.');
+    }
+
+    public function archives()
+    {
+        $burgers = Burger::where('archive', true)->get();
+
+        return view('burger.archiveBurger', compact('burgers'));
     }
 
 
