@@ -22,8 +22,8 @@ class UserSeeder extends Seeder
 
         if (User::where('role', 'gestionnaire')->count() == 0) {
             User::factory()->create([
-                'name' => 'PapeSam',
-                'email' => 'papesam@ipp.com',
+                'name' => 'Diarrastou',
+                'email' => 'diarrastou@ipp.com',
                 'password' => bcrypt('passer123'), // Assure-toi de changer ce mot de passe
                 'role' => 'gestionnaire',
             ]);

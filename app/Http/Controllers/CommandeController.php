@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Commande;
 use App\Models\Burger;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\CommandeConfirmee;
 
 use Illuminate\Http\Request;
 
@@ -40,6 +42,7 @@ class CommandeController extends Controller
             'statut' => 'en_attente',
             'total' => $burger->prix * $request->input('quantite', 1),
         ]);
+
         $commande->save();
 
         // Ajouter les burgers à la commande et calculer le total
@@ -50,7 +53,9 @@ class CommandeController extends Controller
         }
         $commande->update(['total' => $commande->total]);
 
-        return redirect()->route('commande')->with('success', 'Commande créée avec succès.');
+         Mail::to(auth()->user()->email)->send(new CommandeConfirmee($commande));
+
+    return redirect()->route('commande')->with('success', 'Commande créée et email envoyé.');
     }
 
     /**

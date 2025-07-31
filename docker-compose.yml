@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  laravel:
+    build:
+      dockerfile: Dockerfile
+    image: laravel_image
+    container_name: laravel-app
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+    networks:
+      - ipp_vp
+    depends_on:
+      - database
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - laravel
+    networks:
+      - ipp_vp
+
+  database:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      POSTGRES_DB: laravel_ipp_dk
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: passer
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - ipp_vp
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@ipp.local
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8080:80"
+    depends_on:
+      - database
+    networks:
+      - ipp_vp
+
+networks:
+  ipp_vp:
+
+volumes:
+  db_data:
